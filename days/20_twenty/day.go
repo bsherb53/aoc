@@ -1,8 +1,4 @@
-package __four
-
-/*
-
- */
+package twenty
 
 func Do() {
 }
