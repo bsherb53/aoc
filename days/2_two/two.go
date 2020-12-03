@@ -1,9 +1,8 @@
-package two
+package __two
 
 import (
 	"fmt"
 	"strings"
-	"time"
 )
 
 /*
@@ -46,9 +45,7 @@ How many passwords are valid according to the new interpretation of the policies
 Your puzzle answer was 251.
 */
 
-func DayTwo() {
-	day := "Two"
-	start := time.Now()
+func Do() {
 	p1Valid, p2Valid := 0, 0
 	// get input
 	for _, d := range dayTwoData {
@@ -65,8 +62,6 @@ func DayTwo() {
 	// parse it
 	// check if valid
 
-	t := time.Since(start)
-	fmt.Println(fmt.Sprintf("Day %s ran in %s", day, t))
 	fmt.Println(fmt.Sprintf("\tPart One Valid Passwords: %v", p1Valid))
 	fmt.Println(fmt.Sprintf("\tPart Two Valid Passwords: %v", p2Valid))
 }

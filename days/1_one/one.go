@@ -1,8 +1,7 @@
-package one
+package __one
 
 import (
 	"fmt"
-	"time"
 )
 
 /*
@@ -45,26 +44,24 @@ Your puzzle answer was 70276940.
 
 */
 
-func DayOne() {
-	day := "One"
-	start := time.Now()
+func Do() {
 	var a, b int
 	var c, d, e int
 	var p1, p2 bool
-	for i := range D {
-		for j := range D {
-			if D[i]+D[j] == 2020 && !p1 {
-				a = D[i]
-				b = D[j]
+	for i := range data {
+		for j := range data {
+			if data[i]+data[j] == 2020 && !p1 {
+				a = data[i]
+				b = data[j]
 				p1 = true
 			}
 
 			if !p2 {
-				for k := range D {
-					if D[i]+D[j]+D[k] == 2020 {
-						c = D[i]
-						d = D[j]
-						e = D[k]
+				for k := range data {
+					if data[i]+data[j]+data[k] == 2020 {
+						c = data[i]
+						d = data[j]
+						e = data[k]
 						p2 = true
 						break
 					}
@@ -76,13 +73,12 @@ func DayOne() {
 		}
 	}
 DONE:
-	t := time.Since(start)
-	fmt.Println(fmt.Sprintf("Day %s ran in %s", day, t))
+
 	fmt.Println(fmt.Sprintf("\t%v * %v  = %v", a, b, a*b))
 	fmt.Println(fmt.Sprintf("\t%v * %v * %v = %v", c, d, e, c*d*e))
 }
 
-var D = []int{
+var data = []int{
 	1753,
 	1858,
 	1860,
