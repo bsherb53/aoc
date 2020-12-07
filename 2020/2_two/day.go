@@ -5,7 +5,10 @@ import (
 	"strings"
 )
 
+var shouldLog = false
+
 func Do(log bool) {
+	shouldLog = log
 	p1Valid, p2Valid := 0, 0
 	// get input
 	for _, d := range dayTwoData {
@@ -22,8 +25,10 @@ func Do(log bool) {
 	// parse it
 	// check if valid
 
-	fmt.Println(fmt.Sprintf("\tPart One Valid Passwords: %v", p1Valid))
-	fmt.Println(fmt.Sprintf("\tPart Two Valid Passwords: %v", p2Valid))
+	if shouldLog {
+		fmt.Println(fmt.Sprintf("\tPart One Valid Passwords: %v", p1Valid))
+		fmt.Println(fmt.Sprintf("\tPart Two Valid Passwords: %v", p2Valid))
+	}
 }
 
 func partOneValid(d data) bool {

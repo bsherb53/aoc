@@ -73,8 +73,9 @@ var allDays = []func(l bool){
 
 func Run2020(day, times int) {
 	fmt.Println("Advent Of Code 2020")
+	d := time.Now().Day()
 	for i := range allDays {
-		if i == day-1 || day == 0 {
+		if i < d {
 			var avg time.Duration
 			for j := 0; j < times; j++ {
 				start := time.Now()
@@ -83,7 +84,7 @@ func Run2020(day, times int) {
 				//fmt.Println(fmt.Sprintf(" %v", t))
 				avg += t
 			}
-			fmt.Println(fmt.Sprintf("Day %v ran %v times with an average of %v", day, times, time.Duration(int64(avg)/int64(times))))
+			fmt.Println(fmt.Sprintf("Day %v ran %v times with an average of %v", i+1, times, time.Duration(int64(avg)/int64(times))))
 		}
 	}
 }

@@ -30,7 +30,10 @@ var slopes = []struct {
 	{1, 2},
 }
 
+var shouldLog = false
+
 func Do(log bool) {
+	shouldLog = log
 	slope := make([][]string, 0)
 
 	for i := range dataString {
@@ -77,9 +80,10 @@ func Do(log bool) {
 		if m == 0 {
 			m = r.tree
 		}
-		fmt.Println(fmt.Sprintf("\tSlope %v: \n\t\tRight %v, down %v\n\t\t\t%v trees, %v open slots", r.num, r.right, r.down, r.tree, r.open))
 	}
-	fmt.Println(fmt.Sprintf("Mult of Trees: %v", m))
+	if shouldLog {
+		fmt.Println(fmt.Sprintf("Mult of Trees: %v", m))
+	}
 }
 
 var dataString = []string{

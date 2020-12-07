@@ -16,7 +16,10 @@ const (
 
 var seats = make([]int, 0)
 
+var shouldLog = false
+
 func Do(log bool) {
+	shouldLog = log
 	temp := make([]int, 0)
 	for i := 0; i < totalRows; i++ {
 		temp = append(temp, i)
@@ -30,8 +33,6 @@ func Do(log bool) {
 		seats = temp
 		splitPass(pass)
 	}
-	fmt.Println(fmt.Sprintf("Highest SeatID: %v", highestID))
-	fmt.Println(fmt.Sprintf("Lowest SeatID: %v", lowestID))
 	//fmt.Println(fmt.Sprintf("All SeatIDs: %v", allIDs))
 	missingIDs := make([]int, 0)
 	for i := lowestID; i < highestID; i++ {
@@ -39,8 +40,12 @@ func Do(log bool) {
 			missingIDs = append(missingIDs, i)
 		}
 	}
-	fmt.Println(fmt.Sprintf("Missing SeatIDs: %v", missingIDs))
 
+	if shouldLog {
+		fmt.Println(fmt.Sprintf("Highest SeatID: %v", highestID))
+		fmt.Println(fmt.Sprintf("Lowest SeatID: %v", lowestID))
+		fmt.Println(fmt.Sprintf("Missing SeatIDs: %v", missingIDs))
+	}
 }
 func contains(i int, a []int) bool {
 	for j := range a {

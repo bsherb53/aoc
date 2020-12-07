@@ -8,7 +8,10 @@ import (
 	"strings"
 )
 
+var shouldLog = false
+
 func Do(log bool) {
+	shouldLog = log
 	valid := 0
 
 	passports := strings.Split(dataString, "\n\n")
@@ -16,12 +19,13 @@ func Do(log bool) {
 	for i := range passports {
 		d := parseData(passports[i])
 		if err := d.valid(); err != nil {
-			fmt.Println(fmt.Sprintf("Invalid Passport (%s): %+v", err.Error(), d))
 			continue
 		}
 		valid++
 	}
-	fmt.Println(fmt.Sprintf("%v Passports: %v valid, %v invalid", len(passports), valid, len(passports)-valid))
+	if shouldLog {
+		fmt.Println(fmt.Sprintf("%v Passports: %v valid, %v invalid", len(passports), valid, len(passports)-valid))
+	}
 }
 
 type data struct {

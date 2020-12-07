@@ -5,7 +5,10 @@ import (
 	"strings"
 )
 
+var shouldLog = false
+
 func Do(log bool) {
+	shouldLog = log
 	//data := make([]string, 0)
 	totalYes := 0
 	groups := strings.Split(dataString, "\n\n")
@@ -37,10 +40,14 @@ func Do(log bool) {
 
 		}
 		groupYes := len(groupAnswers)
-		fmt.Println(fmt.Sprintf("Group Yesses: %v", groupYes))
+		if shouldLog {
+			fmt.Println(fmt.Sprintf("Group Yesses: %v", groupYes))
+		}
 		totalYes += groupYes
 	}
-	fmt.Println(fmt.Sprintf("Total Yesses: %v", totalYes))
+	if shouldLog {
+		fmt.Println(fmt.Sprintf("Total Yesses: %v", totalYes))
+	}
 }
 
 func contains(i string, a []string) bool {

@@ -4,7 +4,10 @@ import (
 	"fmt"
 )
 
+var shouldLog = false
+
 func Do(log bool) {
+	shouldLog = log
 	var a, b int
 	var c, d, e int
 	var p1, p2 bool
@@ -34,8 +37,10 @@ func Do(log bool) {
 	}
 DONE:
 
-	fmt.Println(fmt.Sprintf("\t%v * %v  = %v", a, b, a*b))
-	fmt.Println(fmt.Sprintf("\t%v * %v * %v = %v", c, d, e, c*d*e))
+	if shouldLog {
+		fmt.Println(fmt.Sprintf("\t%v * %v  = %v", a, b, a*b))
+		fmt.Println(fmt.Sprintf("\t%v * %v * %v = %v", c, d, e, c*d*e))
+	}
 }
 
 var data = []int{
