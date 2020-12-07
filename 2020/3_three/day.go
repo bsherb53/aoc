@@ -30,7 +30,7 @@ var slopes = []struct {
 	{1, 2},
 }
 
-func Do() {
+func Do(log bool) {
 	slope := make([][]string, 0)
 
 	for i := range dataString {

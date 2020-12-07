@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func Do() {
+func Do(log bool) {
 	p1Valid, p2Valid := 0, 0
 	// get input
 	for _, d := range dayTwoData {

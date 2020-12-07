@@ -37,7 +37,7 @@ import (
 	nine "github.com/aoc/2020/9_nine"
 )
 
-var allDays = []func(){
+var allDays = []func(l bool){
 	one.Do,
 	two.Do,
 	three.Do,
@@ -71,15 +71,19 @@ var allDays = []func(){
 	thirtyone.Do,
 }
 
-func Run2020(day int) {
+func Run2020(day, times int) {
 	fmt.Println("Advent Of Code 2020")
-
 	for i := range allDays {
 		if i == day-1 || day == 0 {
-			start := time.Now()
-			allDays[i]()
-			t := time.Since(start)
-			fmt.Println(fmt.Sprintf("Day %v ran in %s", i+1, t))
+			var avg time.Duration
+			for j := 0; j < times; j++ {
+				start := time.Now()
+				allDays[i](false)
+				t := time.Since(start)
+				//fmt.Println(fmt.Sprintf(" %v", t))
+				avg += t
+			}
+			fmt.Println(fmt.Sprintf("Day %v ran %v times with an average of %v", day, times, time.Duration(int64(avg)/int64(times))))
 		}
 	}
 }

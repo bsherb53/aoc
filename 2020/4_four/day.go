@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func Do() {
+func Do(log bool) {
 	valid := 0
 
 	passports := strings.Split(dataString, "\n\n")

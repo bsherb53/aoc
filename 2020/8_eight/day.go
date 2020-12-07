@@ -1,6 +1,6 @@
 package eight
 
-func Do() {
+func Do(log bool) {
 }
 
 var dataString = []string{}

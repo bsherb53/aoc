@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func Do() {
+func Do(log bool) {
 	//data := make([]string, 0)
 	totalYes := 0
 	groups := strings.Split(dataString, "\n\n")

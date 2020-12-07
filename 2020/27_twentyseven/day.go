@@ -1,6 +1,6 @@
 package twentyseven
 
-func Do() {
+func Do(log bool) {
 }
 
 var dataString = []string{}

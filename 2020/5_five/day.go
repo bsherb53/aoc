@@ -16,7 +16,7 @@ const (
 
 var seats = make([]int, 0)
 
-func Do() {
+func Do(log bool) {
 	temp := make([]int, 0)
 	for i := 0; i < totalRows; i++ {
 		temp = append(temp, i)

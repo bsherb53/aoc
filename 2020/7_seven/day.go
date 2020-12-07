@@ -6,7 +6,10 @@ import (
 	"strings"
 )
 
-func Do() {
+var shouldLog = true
+
+func Do(log bool) {
+	shouldLog = log
 	partOne()
 	partTwo()
 }
@@ -62,7 +65,9 @@ func partOne() {
 		}
 	}
 
-	fmt.Println(fmt.Sprintf("Containers that can hold a %s colored bag: %v", myColor, check))
+	if shouldLog {
+		fmt.Println(fmt.Sprintf("Containers that can hold a %s colored bag: %v", myColor, check))
+	}
 }
 
 func canBagHoldColor(color string) bool {
@@ -100,7 +105,9 @@ func partTwo() {
 	p2Rules = parseInput(realData)
 
 	total := bagsInside(p2Rules[myColor])
-	fmt.Println(fmt.Sprintf("Total bags in my %s bag: %v", myColor, total))
+	if shouldLog {
+		fmt.Println(fmt.Sprintf("Total bags in my %s bag: %v", myColor, total))
+	}
 }
 
 func bagsInside(rules []rule) int {

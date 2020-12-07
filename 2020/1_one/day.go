@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func Do() {
+func Do(log bool) {
 	var a, b int
 	var c, d, e int
 	var p1, p2 bool
