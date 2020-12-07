@@ -17,9 +17,13 @@ type rule struct {
 }
 
 var myColor = "shiny gold"
+var input = make(map[string][]rule, 0)
 
 func parseInput(data string) map[string][]rule {
-	var rs = make(map[string][]rule, 0)
+	if len(input) > 0 {
+		return input
+	}
+
 	var colors = make([]string, 0)
 	rules := strings.Split(data, "\n")
 	for _, r := range rules {
@@ -27,49 +31,58 @@ func parseInput(data string) map[string][]rule {
 		s[0] = strings.ReplaceAll(s[0], " bags", "")
 		s[0] = strings.TrimSpace(s[0])
 		colors = append(colors, s[0])
-		//fmt.Println(s[0])
 		for _, c := range strings.Split(s[1], ",") {
-			//fmt.Println(c)
-			something := strings.Split(strings.TrimSpace(c), " ")
-			if something[0] == "no" {
-				rs[s[0]] = append(rs[s[0]], rule{0, c})
+			description := strings.Split(strings.TrimSpace(c), " ")
+			if description[0] == "no" {
+				input[s[0]] = append(input[s[0]], rule{0, c})
 			} else {
-				count, _ := strconv.Atoi(something[0])
-				desc := strings.ReplaceAll(strings.Join(something[1:], " "), "bags.", "")
-				desc = strings.ReplaceAll(desc, "bags", "")
-				desc = strings.ReplaceAll(desc, "bag.", "")
-				desc = strings.ReplaceAll(desc, "bag", "")
-
-				rs[s[0]] = append(rs[s[0]], rule{count, strings.TrimSpace(desc)})
+				count, _ := strconv.Atoi(description[0])
+				d := strings.ReplaceAll(strings.Join(description[1:], " "), "bags.", "")
+				d = strings.ReplaceAll(d, "bags", "")
+				d = strings.ReplaceAll(d, "bag.", "")
+				d = strings.ReplaceAll(d, "bag", "")
+				input[s[0]] = append(input[s[0]], rule{count, strings.TrimSpace(d)})
 			}
 		}
 	}
-	return rs
+	return input
 }
 
+var p1Rules = make(map[string][]rule, 0)
+var p1Checked = make(map[string]bool, 0)
+
 func partOne() {
-	rs := parseInput(realData)
+	p1Rules = parseInput(realData)
 
-	check := []string{myColor}
-	temp := 0
-	for temp != len(rs) {
-		for c, k := range rs {
-			for _, rule := range k {
-				for i := range check {
-					if rule.desc == check[i] {
-						// check what can hold this
-						if !contains(c, check) {
-							check = append(check, c)
-						}
-					}
-				}
+	check := 0
+	for c := range p1Rules {
+		//fmt.Println(fmt.Sprintf("Checking %s colored bag", c))
+		if canBagHoldColor(c) {
+			check++
+		}
+	}
 
+	fmt.Println(fmt.Sprintf("Containers that can hold a %s colored bag: %v", myColor, check))
+}
+
+func canBagHoldColor(color string) bool {
+	if v, ok := p1Checked[color]; ok {
+		return v
+	}
+	can := false
+	for _, rule := range p1Rules[color] {
+		if rule.desc == myColor {
+			p1Checked[color] = true
+			return true
+		}
+		if rule.count > 0 {
+			if canBagHoldColor(rule.desc) {
+				can = true
+				p1Checked[color] = true
 			}
 		}
-		temp++
 	}
-	fmt.Println(fmt.Sprintf("Containers that can hold a %s colored bag: %v", myColor, len(check)-1))
-	//fmt.Println(fmt.Sprintf("All Rules: %v", rs))
+	return can
 }
 
 func contains(s string, a []string) bool {
@@ -87,7 +100,6 @@ func partTwo() {
 	p2Rules = parseInput(realData)
 
 	total := bagsInside(p2Rules[myColor])
-
 	fmt.Println(fmt.Sprintf("Total bags in my %s bag: %v", myColor, total))
 }
 
