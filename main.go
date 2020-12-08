@@ -8,6 +8,5 @@ import (
 
 func main() {
 	day := time.Now().Day()
-	day = 0
 	twentytwenty.Run2020(day, 1000)
 }

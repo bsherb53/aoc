@@ -73,9 +73,8 @@ var allDays = []func(l bool){
 
 func Run2020(day, times int) {
 	fmt.Println("Advent Of Code 2020")
-	d := time.Now().Day()
 	for i := range allDays {
-		if i < d {
+		if i < day {
 			var avg time.Duration
 			for j := 0; j < times; j++ {
 				start := time.Now()
