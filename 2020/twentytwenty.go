@@ -91,6 +91,10 @@ func runDay(log bool, times, i int) {
 		allDays[i](log)
 		t := time.Since(start)
 		avg += t
+		if t > (500 * time.Millisecond) {
+			times = j + 1
+			break
+		}
 	}
 	fmt.Println(fmt.Sprintf("Day %v ran %v times with an average of %v", i+1, times, time.Duration(int64(avg)/int64(times))))
 }
