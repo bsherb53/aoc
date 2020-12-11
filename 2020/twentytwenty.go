@@ -2,6 +2,7 @@ package twentytwenty
 
 import (
 	"fmt"
+	"sync"
 	"time"
 
 	ten "github.com/aoc/2020/10_ten"
@@ -73,20 +74,31 @@ var allDays = []func(l bool){
 
 func Run2020(day, times int) {
 	fmt.Println("Advent Of Code 2020")
+	wg := sync.WaitGroup{}
 	for i := range allDays {
 		if i < day {
 			log := i+1 == day
 			if times > 1 {
 				log = false
 			}
-			var avg time.Duration
-			for j := 0; j < times; j++ {
-				start := time.Now()
-				allDays[i](log)
-				t := time.Since(start)
-				avg += t
-			}
-			fmt.Println(fmt.Sprintf("Day %v ran %v times with an average of %v", i+1, times, time.Duration(int64(avg)/int64(times))))
+			wg.Add(1)
+			go runDay(log, times, i, &wg)
 		}
 	}
+	wg.Wait()
+}
+
+func runDay(log bool, times, i int, wg *sync.WaitGroup) {
+	defer wg.Done()
+	var avg time.Duration
+	for j := 0; j < times; j++ {
+		wg.Add(1)
+
+		start := time.Now()
+		allDays[i](log)
+		t := time.Since(start)
+		avg += t
+	}
+	fmt.Println(fmt.Sprintf("Day %v ran %v times with an average of %v", i+1, times, time.Duration(int64(avg)/int64(times))))
+
 }
