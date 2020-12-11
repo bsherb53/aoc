@@ -20,7 +20,7 @@ func Do(log bool) {
 			max = n
 		}
 	}
-	//partOne(ojs)
+	partOne(ojs)
 	partTwo(ojs)
 }
 
@@ -63,17 +63,17 @@ func contains(a []int, i int) bool {
 }
 
 func partTwo(d []int) {
-	o := check(d, 1)
-	tw := check(d, 2)
-	t := check(d, 3)
+	var memo = make(map[int]int, 0)
+
+	o := check(d, 1, memo)
+	tw := check(d, 2, memo)
+	t := check(d, 3, memo)
 	if shouldLog {
 		fmt.Println(fmt.Sprintf("Part Two:\n\tTotal Adapter Combinations: %v", o+tw+t))
 	}
 }
 
-var memo = make(map[int]int, 0)
-
-func check(a []int, n int) int {
+func check(a []int, n int, memo map[int]int) int {
 	if v, ok := memo[n]; ok {
 		return v
 	}
@@ -81,13 +81,13 @@ func check(a []int, n int) int {
 	case n == max:
 		return 1
 	case contains(a, n):
-		e := check(a, n+1)
+		e := check(a, n+1, memo)
 		memo[n+1] = e
 
-		f := check(a, n+2)
+		f := check(a, n+2, memo)
 		memo[n+2] = f
 
-		g := check(a, n+3)
+		g := check(a, n+3, memo)
 		memo[n+3] = g
 		return e + f + g
 	default:

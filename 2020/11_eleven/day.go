@@ -248,8 +248,8 @@ func p2SwapSeats(seats plan) plan {
 	return newSeats
 }
 
-func f(s plan, tk key) (int, bool) {
-	v, ok := s[tk]
+func f(s plan, k key) (int, bool) {
+	v, ok := s[k]
 	if ok {
 		if v == occ {
 			return 1, true
@@ -262,29 +262,11 @@ func f(s plan, tk key) (int, bool) {
 }
 
 func p2CountNear(seats plan, k key) int {
-
 	occupied := 0
-	tk := k
 
 	for i := 1; i < max; i++ {
-		tk = key{k.row - i, k.col - i}
-		o, b := f(seats, tk)
-		occupied += o
-		if b {
-			break
-		}
-	}
-	for i := 1; i < max; i++ {
-		tk = key{k.row - i, k.col}
-		o, b := f(seats, tk)
-		occupied += o
-		if b {
-			break
-		}
-	}
-	for i := 1; i < max; i++ {
-		tk = key{k.row - i, k.col + i}
-		o, b := f(seats, tk)
+		r := key{k.row - i, k.col - i}
+		o, b := f(seats, r)
 		occupied += o
 		if b {
 			break
@@ -292,16 +274,8 @@ func p2CountNear(seats plan, k key) int {
 	}
 
 	for i := 1; i < max; i++ {
-		tk = key{k.row, k.col - i}
-		o, b := f(seats, tk)
-		occupied += o
-		if b {
-			break
-		}
-	}
-	for i := 1; i < max; i++ {
-		tk = key{k.row, k.col + i}
-		o, b := f(seats, tk)
+		r := key{k.row - i, k.col}
+		o, b := f(seats, r)
 		occupied += o
 		if b {
 			break
@@ -309,24 +283,53 @@ func p2CountNear(seats plan, k key) int {
 	}
 
 	for i := 1; i < max; i++ {
-		tk = key{k.row + i, k.col - i}
-		o, b := f(seats, tk)
+		r := key{k.row - i, k.col + i}
+		o, b := f(seats, r)
 		occupied += o
 		if b {
 			break
 		}
 	}
+
 	for i := 1; i < max; i++ {
-		tk = key{k.row + i, k.col}
-		o, b := f(seats, tk)
+		r := key{k.row, k.col - i}
+		o, b := f(seats, r)
 		occupied += o
 		if b {
 			break
 		}
 	}
+
 	for i := 1; i < max; i++ {
-		tk = key{k.row + i, k.col + i}
-		o, b := f(seats, tk)
+		r := key{k.row, k.col + i}
+		o, b := f(seats, r)
+		occupied += o
+		if b {
+			break
+		}
+	}
+
+	for i := 1; i < max; i++ {
+		r := key{k.row + i, k.col - i}
+		o, b := f(seats, r)
+		occupied += o
+		if b {
+			break
+		}
+	}
+
+	for i := 1; i < max; i++ {
+		r := key{k.row + i, k.col}
+		o, b := f(seats, r)
+		occupied += o
+		if b {
+			break
+		}
+	}
+
+	for i := 1; i < max; i++ {
+		r := key{k.row + i, k.col + i}
+		o, b := f(seats, r)
 		occupied += o
 		if b {
 			break

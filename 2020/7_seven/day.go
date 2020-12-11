@@ -10,8 +10,10 @@ var shouldLog = true
 
 func Do(log bool) {
 	shouldLog = log
-	partOne()
-	partTwo()
+	rules := parseInput(realData)
+
+	partOne(rules)
+	partTwo(rules)
 }
 
 type rule struct {
@@ -20,12 +22,9 @@ type rule struct {
 }
 
 var myColor = "shiny gold"
-var input = make(map[string][]rule, 0)
 
 func parseInput(data string) map[string][]rule {
-	if len(input) > 0 {
-		return input
-	}
+	input := make(map[string][]rule, 0)
 
 	var colors = make([]string, 0)
 	rules := strings.Split(data, "\n")
@@ -51,16 +50,13 @@ func parseInput(data string) map[string][]rule {
 	return input
 }
 
-var p1Rules = make(map[string][]rule, 0)
-var p1Checked = make(map[string]bool, 0)
-
-func partOne() {
-	p1Rules = parseInput(realData)
+func partOne(rules map[string][]rule) {
+	var checked = make(map[string]bool, 0)
 
 	check := 0
-	for c := range p1Rules {
+	for c := range rules {
 		//fmt.Println(fmt.Sprintf("Checking %s colored bag", c))
-		if canBagHoldColor(c) {
+		if canBagHoldColor(c, rules, checked) {
 			check++
 		}
 	}
@@ -70,20 +66,20 @@ func partOne() {
 	}
 }
 
-func canBagHoldColor(color string) bool {
-	if v, ok := p1Checked[color]; ok {
+func canBagHoldColor(color string, rules map[string][]rule, checked map[string]bool) bool {
+	if v, ok := checked[color]; ok {
 		return v
 	}
 	can := false
-	for _, rule := range p1Rules[color] {
+	for _, rule := range rules[color] {
 		if rule.desc == myColor {
-			p1Checked[color] = true
+			checked[color] = true
 			return true
 		}
 		if rule.count > 0 {
-			if canBagHoldColor(rule.desc) {
+			if canBagHoldColor(rule.desc, rules, checked) {
 				can = true
-				p1Checked[color] = true
+				checked[color] = true
 			}
 		}
 	}
@@ -99,23 +95,22 @@ func contains(s string, a []string) bool {
 	return false
 }
 
-var p2Rules = make(map[string][]rule, 0)
+func partTwo(rules map[string][]rule) {
+	rules = parseInput(realData)
 
-func partTwo() {
-	p2Rules = parseInput(realData)
-
-	total := bagsInside(p2Rules[myColor])
+	total := bagsInside(myColor, rules)
 	if shouldLog {
 		fmt.Println(fmt.Sprintf("Total bags in my %s bag: %v", myColor, total))
 	}
 }
 
-func bagsInside(rules []rule) int {
+func bagsInside(color string, rules map[string][]rule) int {
 	count := 0
-	for _, rule := range rules {
+	myrule := rules[color]
+	for _, rule := range myrule {
 		if rule.count != 0 {
 			count += rule.count
-			bi := bagsInside(p2Rules[rule.desc])
+			bi := bagsInside(rule.desc, rules)
 			//count = count + (rule.count * bagsInside(p2Rules[rule.desc]))
 			count += rule.count * bi
 		}
